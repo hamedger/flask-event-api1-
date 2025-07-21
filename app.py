@@ -64,7 +64,7 @@ def classify_rank(rank):
 # Ticketmaster
 def tm_events(city):
     url = "https://app.ticketmaster.com/discovery/v2/events.json"
-    params = dict(apikey=TM_API_KEY, city=city, countryCode=country,
+    params = dict(apikey=TM_API_KEY, city='New York', countryCode=country,
                   startDateTime=START, endDateTime=END, size=100, sort="date,asc")
     resp = requests.get(url, params=params)
     if resp.status_code != 200: return []
