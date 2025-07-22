@@ -106,12 +106,12 @@ def tm_events(city):
     return events
 
 # Predicthq 
-def fetch_phq_events(city, start, end):
+def fetch_phq_events(city, START, END):
     url = "https://api.predicthq.com/v1/events/"
     headers = {"Authorization": f"Bearer {PHQ_TOKEN}"}
     params = {
-        "active.gte": start,
-        "active.lte": end,
+        "active.gte": START,
+        "active.lte": END,
         "country": "US",
         "limit": 100,
         "sort": "rank",
