@@ -106,7 +106,7 @@ def tm_events(city):
     return events
 
 # Predicthq 
-def fetch_phq_events(city, START_str, END_str):
+def fetch_phq_events(START_str, END_str):
     url = "https://api.predicthq.com/v1/events/"
     headers = {"Authorization": f"Bearer {PHQ_TOKEN}"}
     params = {
