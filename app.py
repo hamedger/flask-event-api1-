@@ -59,8 +59,28 @@ def classify_rank(rank):
     else:
         return "Unknown"
         
- country = request.args.get('country', 'US')  # Defaults to US
- city = request.args.get('city', 'New York')  # Default to New York if city not provided
+@app.route('/', methods=['GET'])
+def get_events():
+    
+    country = request.args.get('country', 'US')  # Defaults to US
+    city = request.args.get('city', 'New York')  # Default to New York if city not provided
+    sort_by = request.args.get('sort')  # e.g., 'date', 'attendance', 'source'
+    
+    if not city:
+        return jsonify({"error": "City parameter is required"}), 400
+
+    print(f"City requested: {city}")
+
+    events = tm_events(city) + fetch_phq_events(city)
+
+    if sort_by == "date":
+        events.sort(key=lambda x: x.get("Start", ""))
+    elif sort_by == "attendance":
+        events.sort(key=lambda x: int(x.get("Estimated Attendees", 0)) if x.get("Estimated Attendees", "N/A").isdigit() else 0, reverse=True)
+    elif sort_by == "source":
+        events.sort(key=lambda x: x.get("Source", ""))
+
+    return jsonify(events)
   
 # Ticketmaster
 def tm_events(city):
@@ -163,28 +183,7 @@ def get_cities():
     return jsonify(TOP_US_CITIES)
 
 
-@app.route('/', methods=['GET'])
-def get_events():
-    
-    country = request.args.get('country', 'US')  # Defaults to US
-    city = request.args.get('city', 'New York')  # Default to New York if city not provided
-    sort_by = request.args.get('sort')  # e.g., 'date', 'attendance', 'source'
-    
-    if not city:
-        return jsonify({"error": "City parameter is required"}), 400
 
-    print(f"City requested: {city}")
-
-    events = tm_events(city) + fetch_phq_events(city)
-
-    if sort_by == "date":
-        events.sort(key=lambda x: x.get("Start", ""))
-    elif sort_by == "attendance":
-        events.sort(key=lambda x: int(x.get("Estimated Attendees", 0)) if x.get("Estimated Attendees", "N/A").isdigit() else 0, reverse=True)
-    elif sort_by == "source":
-        events.sort(key=lambda x: x.get("Source", ""))
-
-    return jsonify(events)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5050)
