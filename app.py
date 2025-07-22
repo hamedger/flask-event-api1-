@@ -110,8 +110,8 @@ def fetch_phq_events('2025-07-01', '2025-07-31'):
     url = "https://api.predicthq.com/v1/events/"
     headers = {"Authorization": f"Bearer {PHQ_TOKEN}"}
     params = {
-        "active.gte": START_str,
-        "active.lte": END_str,
+        "active.gte": startDateTime=START,
+        "active.lte": endDateTime=END,
         "country": "US",
         "limit": 100,
         "sort": "rank",
