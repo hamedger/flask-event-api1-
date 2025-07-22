@@ -59,8 +59,8 @@ def classify_rank(rank):
     else:
         return "Unknown"
         
-def country = request.args.get('country', 'US')  # Defaults to US
-def city = request.args.get('city', 'New York')  # Default to New York if city not provided
+ country = request.args.get('country', 'US')  # Defaults to US
+ city = request.args.get('city', 'New York')  # Default to New York if city not provided
   
 # Ticketmaster
 def tm_events(city):
