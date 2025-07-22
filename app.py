@@ -164,7 +164,7 @@ def get_cities():
 
 @app.route('/', methods=['GET'])
 def get_events():
-    city = request.args.get('city')
+     city = request.args.get('city', 'New York')  # Default to New York if city not provided
     country = request.args.get('country', 'US')  # Defaults to US
     sort_by = request.args.get('sort')  # e.g., 'date', 'attendance', 'source'
     
